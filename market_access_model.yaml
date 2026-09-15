@@ -1,0 +1,25 @@
+# market_access_model.yaml
+name: Market Access Pricing Model
+description: "Semantic configuration tracking drug prices, payer bodies, and reimbursement statuses across Europe."
+tables:
+  - name: ALIRA_DW.PROD.MARKET_ACCESS_REIMBURSEMENT
+    description: "Contains data on global drug pricing approvals and pricing strategies."
+    base_filter: ""
+    dimensions:
+      - name: drug_name
+        type: text
+        description: "The commercial trade name of the pharmaceutical drug asset or compound."
+        synonyms: ["medication", "treatment", "product", "therapy"]
+      - name: country
+        type: text
+        description: "The two-letter ISO country code location."
+        synonyms: ["geography", "region", "market", "nation"]
+      - name: reimbursement_status
+        type: text
+        description: "The coverage standing or approval state awarded by the state payer body."
+        synonyms: ["coverage", "funding", "approval decision", "reimbursement state"]
+    measures:
+      - name: approved_price_eur
+        type: sum
+        description: "The state-approved standard pricing metric denominated in Euros."
+        synonyms: ["cost", "price tag", "reimbursement amount", "pricing limit"]

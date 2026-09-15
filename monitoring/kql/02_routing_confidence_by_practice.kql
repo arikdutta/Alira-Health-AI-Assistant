@@ -1,0 +1,10 @@
+// Routing confidence distribution by practice - watch for drift.
+// confidence is the orchestrator's score for the practice it routed to. A falling P10 means consultants are
+// phrasing things the model hasn't seen; expect LowConfidenceFallback events to rise next.
+customEvents
+| where name == "QueryRouted"
+| extend Practice = tostring(customDimensions.practice),
+         Conf = todouble(customDimensions.confidence)
+| summarize P50 = percentile(Conf, 50), P10 = percentile(Conf, 10), Queries = count()
+        by Practice, bin(timestamp, 1d)
+| render timechart

@@ -1,0 +1,39 @@
+{
+  "description": "Replayed against the staging deployments by scripts/retrain_clu.py before promotion. Every case must pass. 'intent' and 'entities' are checked against the alira-transaction-advisory child model, 'practice' against Alira-Master-Orchestrator. Seed cases only: extend with the Phase 0 regression set and with every consultant-reported bad answer once it is fixed.",
+  "cases": [
+    {
+      "text": "Show me oncology targets in Germany with revenue over 20M",
+      "practice": "Alira-MA-DueDiligence",
+      "intent": "ScreenTargets",
+      "entities": { "TherapeuticArea": "oncology", "Geography": "Germany", "RevenueFloorUsd": "20M" }
+    },
+    {
+      "text": "Find cancer assets in France making more than 10M",
+      "practice": "Alira-MA-DueDiligence",
+      "intent": "ScreenTargets",
+      "entities": { "TherapeuticArea": "cancer", "Geography": "France" }
+    },
+    {
+      "text": "Which comparables exist for rare disease deals since 2022",
+      "practice": "Alira-MA-DueDiligence",
+      "intent": "GetDealComparables",
+      "entities": { "TherapeuticArea": "rare disease" }
+    },
+    {
+      "text": "What is the reimbursement price for Enhertu in France",
+      "practice": "Alira-MarketAccess"
+    },
+    {
+      "text": "How many NSCLC patients with ALK rearrangements are in lung cancer registries",
+      "practice": "Alira-RWE"
+    },
+    {
+      "text": "What is the weather like in Boston today",
+      "practice": "None"
+    },
+    {
+      "text": "Reset my laptop password",
+      "practice": "None"
+    }
+  ]
+}

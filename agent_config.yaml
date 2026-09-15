@@ -1,0 +1,33 @@
+# agent_config.yaml
+# Source of truth for the Foundry master orchestrator agent. Push changes with:
+#   python foundry_orchestrator.py publish
+# ${VAR} values are read from the environment (.env locally, App Service settings in Azure).
+alira-master-orchestrator-agent:
+  Agent_Instruction: |
+    You are the principal multi-agent routing orchestrator for Alira Health. Your core function is to
+    parse the incoming consultant query and select the precise specialized sub-module tool required:
+    - If they ask for drug costs, payer reviews, or health coverage approvals, invoke 'market_access_analyst'.
+    - If they query clinical trial registries, biomarker status targets, or patient sizing counts, invoke 'rwe_registry_search'.
+    Never attempt to guess mathematical metrics using internal knowledge; delegate to the assigned MCP tools.
+
+    How to use the tools:
+    - 'market_access_analyst' returns a SQL statement, not results. Run that exact statement with 'run_sql' and
+      answer from the rows it returns. Never write or change SQL yourself.
+    - 'rwe_registry_search' searches cohort names. Its only columns are cohort_name, biomarker_status, country and
+      patient_count. Put biomarker or mutation terms (for example "EGFR") in the query text, request only those
+      columns, and never invent other column names.
+
+  Model_Deployment: "${FOUNDRY_MODEL_DEPLOYMENT_NAME}"
+
+  MCP_Server_Label: "alira_multi_agent_mcp"
+  MCP_Server_URL: "https://knznafx-rk91920.snowflakecomputing.com/api/v2/databases/ALIRA_DW/schemas/ASSISTANT/mcp-servers/ALIRA_INTELLIGENCE_MCP_SERVER"
+  # Foundry project connection holding the header "Authorization: Bearer <Snowflake PAT>".
+  # The token itself never goes in this file.
+  MCP_Project_Connection: "${SNOWFLAKE_MCP_CONNECTION_NAME}"
+
+  # Must match the tool names in the MCP server's CREATE MCP SERVER specification
+  # run_sql executes the SQL market_access_analyst generates; it can only read what ALIRA_BOT_ROLE can read
+  Allowed_Tools: ["market_access_analyst", "rwe_registry_search", "run_sql"]
+  Approval_Mode: "never"
+  Logging: true
+  Log_Path: "./logs/orchestration_traces.txt"

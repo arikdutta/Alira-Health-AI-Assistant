@@ -1,0 +1,115 @@
+{
+  "projectFileVersion": "2023-04-01",
+  "stringIndexType": "Utf16CodeUnit",
+  "metadata": {
+    "projectKind": "Orchestration",
+    "projectName": "Alira-Master-Orchestrator",
+    "multilingual": false,
+    "description": "Parent router. Connected intents pull their training utterances from the child CLU projects.",
+    "language": "en-us",
+    "settings": {
+      "confidenceThreshold": 0.5
+    }
+  },
+  "assets": {
+    "projectKind": "Orchestration",
+    "intents": [
+      {
+        "category": "Alira-MA-DueDiligence",
+        "orchestration": {
+          "targetProjectKind": "Conversation",
+          "conversationOrchestration": {
+            "projectName": "alira-transaction-advisory",
+            "deploymentName": "production-v1"
+          }
+        }
+      },
+      {
+        "category": "Alira-MarketAccess"
+      },
+      {
+        "category": "Alira-RWE"
+      },
+      {
+        "category": "None"
+      }
+    ],
+    "utterances": [
+      {
+        "text": "What is the approved price of Keytruda in Germany",
+        "language": "en-us",
+        "intent": "Alira-MarketAccess"
+      },
+      {
+        "text": "Show the reimbursement status of oncology drugs in France",
+        "language": "en-us",
+        "intent": "Alira-MarketAccess"
+      },
+      {
+        "text": "Which payers have approved coverage for Humira in Italy",
+        "language": "en-us",
+        "intent": "Alira-MarketAccess"
+      },
+      {
+        "text": "Compare drug costs for Opdivo across European markets",
+        "language": "en-us",
+        "intent": "Alira-MarketAccess"
+      },
+      {
+        "text": "Is Zolgensma reimbursed by the Spanish health system",
+        "language": "en-us",
+        "intent": "Alira-MarketAccess"
+      },
+      {
+        "text": "List recent payer reviews for rare disease therapies in the UK",
+        "language": "en-us",
+        "intent": "Alira-MarketAccess"
+      },
+      {
+        "text": "Find clinical trial registries for non-small cell lung cancer",
+        "language": "en-us",
+        "intent": "Alira-RWE"
+      },
+      {
+        "text": "How many patients with EGFR mutations are in European registries",
+        "language": "en-us",
+        "intent": "Alira-RWE"
+      },
+      {
+        "text": "Search registries for HER2 positive breast cancer cohorts",
+        "language": "en-us",
+        "intent": "Alira-RWE"
+      },
+      {
+        "text": "Estimate the patient population for Duchenne muscular dystrophy",
+        "language": "en-us",
+        "intent": "Alira-RWE"
+      },
+      {
+        "text": "Which registries record biomarker status for colorectal cancer",
+        "language": "en-us",
+        "intent": "Alira-RWE"
+      },
+      {
+        "text": "Show real-world evidence cohorts for multiple sclerosis patients",
+        "language": "en-us",
+        "intent": "Alira-RWE"
+      },
+      {
+        "text": "Book a meeting room for Thursday",
+        "language": "en-us",
+        "intent": "None"
+      },
+      {
+        "text": "What is the weather like in Boston today",
+        "language": "en-us",
+        "intent": "None"
+      },
+      {
+        "text": "Reset my laptop password",
+        "language": "en-us",
+        "intent": "None"
+      }
+    ]
+  }
+}

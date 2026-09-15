@@ -1,0 +1,9 @@
+/* Minimal base; the dashboard styles itself inline */
+:root {
+  color-scheme: light;
+  background: #ffffff;
+}
+
+body {
+  margin: 0;
+}

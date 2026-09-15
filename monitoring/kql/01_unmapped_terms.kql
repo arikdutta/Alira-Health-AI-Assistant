@@ -1,0 +1,9 @@
+// Unmapped vocabulary - your weekly synonym backlog.
+// detected_term is redacted: company names become [COMPANY] and figures [NUM]. The steward sees the full
+// utterance in the NLU feedback review app and fixes the term there by mapping it to a master code.
+customEvents
+| where name == "UnmappedTerm"
+| summarize Hits = count(), LastSeen = max(timestamp)
+        by Term = tostring(customDimensions.detected_term),
+           Category = tostring(customDimensions.detected_category)
+| order by Hits desc

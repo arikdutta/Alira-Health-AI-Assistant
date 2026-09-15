@@ -1,0 +1,158 @@
+{
+  "projectFileVersion": "2023-04-01",
+  "stringIndexType": "Utf16CodeUnit",
+  "metadata": {
+    "projectKind": "Conversation",
+    "projectName": "alira-transaction-advisory",
+    "multilingual": true,
+    "description": "Transaction Advisory child model. Seed dataset; approved feedback is merged in by scripts/retrain_clu.py.",
+    "language": "en-us",
+    "settings": {
+      "confidenceThreshold": 0.7
+    }
+  },
+  "assets": {
+    "projectKind": "Conversation",
+    "intents": [
+      {
+        "category": "ScreenTargets"
+      },
+      {
+        "category": "GetDealComparables"
+      },
+      {
+        "category": "None"
+      }
+    ],
+    "entities": [
+      {
+        "category": "TherapeuticArea",
+        "compositionSetting": "combineComponents"
+      },
+      {
+        "category": "Geography",
+        "compositionSetting": "combineComponents"
+      },
+      {
+        "category": "AssetType",
+        "compositionSetting": "combineComponents"
+      },
+      {
+        "category": "RevenueFloorUsd",
+        "compositionSetting": "combineComponents",
+        "prebuilts": [
+          {
+            "category": "Quantity.Number"
+          }
+        ]
+      },
+      {
+        "category": "YearFrom",
+        "compositionSetting": "combineComponents",
+        "prebuilts": [
+          {
+            "category": "DateTime"
+          }
+        ]
+      }
+    ],
+    "utterances": [
+      {
+        "text": "Show me oncology targets in Germany with revenue over 20M",
+        "language": "en-us",
+        "intent": "ScreenTargets",
+        "entities": [
+          {
+            "category": "TherapeuticArea",
+            "offset": 8,
+            "length": 8
+          },
+          {
+            "category": "Geography",
+            "offset": 28,
+            "length": 7
+          },
+          {
+            "category": "RevenueFloorUsd",
+            "offset": 54,
+            "length": 3
+          }
+        ]
+      },
+      {
+        "text": "List MedTech targets in oncology with revenues over 10M",
+        "language": "en-us",
+        "intent": "ScreenTargets",
+        "entities": [
+          {
+            "category": "AssetType",
+            "offset": 5,
+            "length": 7
+          },
+          {
+            "category": "TherapeuticArea",
+            "offset": 24,
+            "length": 8
+          },
+          {
+            "category": "RevenueFloorUsd",
+            "offset": 52,
+            "length": 3
+          }
+        ]
+      },
+      {
+        "text": "Find acquisition candidates in France for rare disease assets",
+        "language": "en-us",
+        "intent": "ScreenTargets",
+        "entities": [
+          {
+            "category": "Geography",
+            "offset": 31,
+            "length": 6
+          },
+          {
+            "category": "TherapeuticArea",
+            "offset": 42,
+            "length": 12
+          }
+        ]
+      },
+      {
+        "text": "Show recent valuation multiples for CDMO acquisitions",
+        "language": "en-us",
+        "intent": "GetDealComparables",
+        "entities": [
+          {
+            "category": "AssetType",
+            "offset": 36,
+            "length": 4
+          }
+        ]
+      },
+      {
+        "text": "What comparables do we have for oncology deals since 2023",
+        "language": "en-us",
+        "intent": "GetDealComparables",
+        "entities": [
+          {
+            "category": "TherapeuticArea",
+            "offset": 32,
+            "length": 8
+          },
+          {
+            "category": "YearFrom",
+            "offset": 53,
+            "length": 4
+          }
+        ]
+      },
+      {
+        "text": "Book a meeting room for Thursday",
+        "language": "en-us",
+        "intent": "None",
+        "entities": []
+      }
+    ]
+  }
+}

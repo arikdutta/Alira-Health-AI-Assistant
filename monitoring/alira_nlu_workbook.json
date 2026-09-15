@@ -1,0 +1,95 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "name": "intro",
+      "content": {
+        "json": "## Alira assistant - NLU health\nBuilt from the `customEvents` the API emits. Utterances and terms are redacted: company names show as `[COMPANY]`, figures as `[NUM]`. Full utterances are only in `ALIRA_DW.ASSISTANT.NLU_FEEDBACK`, reviewed by the data steward."
+      }
+    },
+    {
+      "type": 9,
+      "name": "parameters",
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "parameters": [
+          {
+            "id": "b6f1c1a4-2f0e-4c55-9d7e-4a3c1f0b9e21",
+            "version": "KqlParameterItem/1.0",
+            "name": "TimeRange",
+            "label": "Time range",
+            "type": 4,
+            "isRequired": true,
+            "value": {
+              "durationMs": 604800000
+            },
+            "typeSettings": {
+              "selectableValues": [
+                {
+                  "durationMs": 3600000
+                },
+                {
+                  "durationMs": 86400000
+                },
+                {
+                  "durationMs": 604800000
+                },
+                {
+                  "durationMs": 2592000000
+                }
+              ],
+              "allowCustom": true
+            }
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components"
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "customEvents\n| where name == \"UnmappedTerm\"\n| summarize Hits = count(), LastSeen = max(timestamp)\n        by Term = tostring(customDimensions.detected_term),\n           Category = tostring(customDimensions.detected_category)\n| order by Hits desc",
+        "size": 0,
+        "title": "Unmapped vocabulary - weekly synonym backlog",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components",
+        "visualization": "table"
+      },
+      "name": "unmapped-terms"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "customEvents\n| where name == \"QueryRouted\"\n| extend Practice = tostring(customDimensions.practice),\n         Conf = todouble(customDimensions.confidence)\n| summarize P50 = percentile(Conf, 50), P10 = percentile(Conf, 10), Queries = count()\n        by Practice, bin(timestamp, 1d)",
+        "size": 0,
+        "title": "Routing confidence by practice (P50 / P10) - watch for drift",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components",
+        "visualization": "timechart"
+      },
+      "name": "routing-confidence"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "customEvents\n| where name == \"QueryRouted\" and toint(customDimensions.row_count) == 0\n| project timestamp,\n          Practice = tostring(customDimensions.practice),\n          Intent = tostring(customDimensions.intent),\n          Outcome = tostring(customDimensions.outcome),\n          TraceId = tostring(customDimensions.trace_id)\n| order by timestamp desc",
+        "size": 0,
+        "title": "Zero-row answers - the silent failure mode",
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.insights/components",
+        "visualization": "table"
+      },
+      "name": "zero-row-queries"
+    }
+  ],
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}

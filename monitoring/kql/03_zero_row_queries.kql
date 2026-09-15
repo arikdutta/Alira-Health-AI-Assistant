@@ -1,0 +1,14 @@
+// Queries that succeeded technically but returned nothing - the silent failure mode.
+// A zero-row answer looks like success to the system and like a broken tool to the consultant.
+// Outcome: NO_ROWS (the SQL ran and matched nothing), UNMAPPED_TERM (a filter word had no synonym, so the SQL
+// was skipped), NO_SQL_MAPPING (the intent has no query yet) or AGENT_TEXT (the Foundry agent answered in text
+// only; for market access figures that usually means its tools generated SQL but didn't run it).
+// Intent is the agent's tool names for agent practices. TraceId matches NLU_FEEDBACK.trace_id.
+customEvents
+| where name == "QueryRouted" and toint(customDimensions.row_count) == 0
+| project timestamp,
+          Practice = tostring(customDimensions.practice),
+          Intent = tostring(customDimensions.intent),
+          Outcome = tostring(customDimensions.outcome),
+          TraceId = tostring(customDimensions.trace_id)
+| order by timestamp desc

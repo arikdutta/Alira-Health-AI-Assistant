@@ -1,0 +1,15 @@
+fastapi==0.141.1
+uvicorn==0.52.4
+azure-ai-language-conversations==1.1.0
+snowflake-connector-python==3.7.1
+python-dotenv==1.0.1
+pydantic==2.13.5
+pytest==8.0.0
+PyJWT==2.14.0
+requests==2.31.0
+microsoft-teams-apps==2.0.16
+azure-monitor-opentelemetry==1.8.10
+azure-ai-projects==2.6.0
+azure-identity==1.25.3
+openai==3.13.0
+PyYAML==6.0.3

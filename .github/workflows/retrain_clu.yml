@@ -1,0 +1,49 @@
+name: CLU retraining
+
+on:
+  schedule: [{ cron: '0 2 * * 1' }]   # weekly, not daily - daily model churn is not reviewable
+  workflow_dispatch:
+  # A change to the training data or the gate must pass the gate before it merges
+  pull_request:
+    paths:
+      - clu_base_dataset.json
+      - clu_regression_set.json
+      - scripts/retrain_clu.py
+
+permissions:
+  contents: read
+
+env:
+  API_VERSION: '2023-04-01'              # pin a GA version; check the REST reference for current GA
+  TRAINING_CONFIG_VERSION: '2023-04-15'  # the model version, pinned so results are comparable week to week
+
+# Imports and deployments from overlapping runs must not interleave
+concurrency:
+  group: clu-retrain
+  cancel-in-progress: false
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      # Only the default branch promotes (scheduled runs always use it, and carry no repository payload).
+      # Anything else trains in a separate -ci project and stops after the gate and staging smoke test,
+      # so a bad-data branch can prove the gate works without touching production.
+      DEPLOY: ${{ github.event_name == 'schedule' || github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
+      PROJECT: ${{ (github.event_name == 'schedule' || github.ref == format('refs/heads/{0}', github.event.repository.default_branch)) && 'alira-transaction-advisory' || 'alira-transaction-advisory-ci' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: pip install requests==2.31.0 snowflake-connector-python==3.7.1
+      - run: python scripts/retrain_clu.py
+        env:
+          AZURE_LANGUAGE_KEY:      ${{ secrets.AZURE_LANGUAGE_KEY }}
+          AZURE_LANGUAGE_ENDPOINT: ${{ secrets.AZURE_LANGUAGE_ENDPOINT }}
+          SNOWFLAKE_ACCOUNT:       ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER:          ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PRIVATE_KEY:   ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
+          SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE }}
+          SNOWFLAKE_WAREHOUSE:     ALIRA_BOT_WH
+          SNOWFLAKE_ROLE:          ALIRA_CLU_RETRAIN

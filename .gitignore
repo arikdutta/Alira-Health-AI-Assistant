@@ -1,0 +1,22 @@
+# Virtual environments
+.venv/
+venv/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Test / tooling caches
+.pytest_cache/
+
+# Secrets
+.env
+*.p8
+*.pem
+
+# Runtime logs
+logs/
+
+# Frontend dependencies and build output
+node_modules/
+dist/
