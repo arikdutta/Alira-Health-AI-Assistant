@@ -14,8 +14,10 @@ registry searches. Every question the assistant handles badly goes to a **data s
 and approved examples retrain the model weekly behind an **F1 quality gate**.
 
 Built as a personal sandbox project on Azure and Snowflake. All warehouse data is mock data.
-<img width="872" height="598" alt="rwe-registries" src="https://github.com/user-attachments/assets/0cf07772-24e6-489f-a3aa-aa6b7fabd746" />
 
+<img width="872" height="598" alt="rwe-registries" src="https://github.com/user-attachments/assets/0cf07772-24e6-489f-a3aa-aa6b7fabd746" />
+<img width="860" height="386" alt="market-access" src="https://github.com/user-attachments/assets/3604df3c-aaf8-4440-a4e6-fd87e261c43d" />
+<img width="870" height="346" alt="ma-target-screening" src="https://github.com/user-attachments/assets/2caa8100-dd13-470c-abdb-7b2fe05ab510" />
 ---
 
 ## What this project teaches you
