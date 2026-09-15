@@ -14,6 +14,7 @@ registry searches. Every question the assistant handles badly goes to a **data s
 and approved examples retrain the model weekly behind an **F1 quality gate**.
 
 Built as a personal sandbox project on Azure and Snowflake. All warehouse data is mock data.
+<img width="872" height="598" alt="rwe-registries" src="https://github.com/user-attachments/assets/0cf07772-24e6-489f-a3aa-aa6b7fabd746" />
 
 ---
 
